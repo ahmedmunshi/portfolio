@@ -1,0 +1,39 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Flask instance folder
+instance/
+
+# Environment variables
+.env
+
+# Database
+*.db
+*.sqlite
+
+# Logs
+*.log
+
+# Upload folders - don't ignore these as we want them in Git
+# app/static/images/photos/
+# app/static/images/thumbnails/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.idea/
+.vscode/ 

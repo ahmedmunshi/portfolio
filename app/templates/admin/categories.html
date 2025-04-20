@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Categories - LENS Photography Portfolio{% endblock %}
+
+{% block content %}
+<div class="pt-24 pb-20 bg-black">
+    <div class="container mx-auto px-4 md:px-6">
+        <div class="max-w-2xl mx-auto">
+            <div class="mb-8 flex justify-between items-center">
+                <h1 class="font-playfair text-3xl font-bold">Manage Categories</h1>
+                <a href="{{ url_for('admin.index') }}" class="inline-block border border-white px-4 py-2 hover:bg-white hover:text-black transition-colors duration-300">Back to Admin</a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Add Category Form -->
+                <div class="bg-dark p-6 rounded-lg shadow-lg">
+                    <h2 class="font-playfair text-xl font-bold mb-4">Add New Category</h2>
+                    
+                    <form method="POST" class="space-y-4">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="form-group">
+                            <label for="{{ form.name.id }}" class="block text-gray-300 mb-2">Category Name</label>
+                            {{ form.name(class="w-full bg-black border border-gray-700 text-white px-4 py-2 focus:outline-none focus:border-white transition-colors duration-300") }}
+                            {% for error in form.name.errors %}
+                                <span class="text-red-500 text-sm">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.submit(class="w-full bg-white text-black py-2 px-4 font-bold hover:bg-gray-200 transition-colors duration-300") }}
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Current Categories -->
+                <div class="bg-dark p-6 rounded-lg shadow-lg">
+                    <h2 class="font-playfair text-xl font-bold mb-4">Current Categories</h2>
+                    
+                    {% if categories %}
+                        <ul class="space-y-2">
+                            {% for category in categories %}
+                                <li class="flex justify-between items-center py-2 px-3 bg-black bg-opacity-50 rounded">
+                                    <span>{{ category.name }}</span>
+                                    <a href="{{ url_for('main.gallery', category=category.slug) }}" class="text-blue-400 hover:text-blue-300 text-sm">
+                                        View Photos
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-gray-400 text-center py-6">No categories created yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

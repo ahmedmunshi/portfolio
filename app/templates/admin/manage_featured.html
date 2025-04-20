@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Featured Photos - SMBR Portfolio{% endblock %}
+
+{% block content %}
+<div class="pt-24 pb-20 bg-black">
+    <div class="container mx-auto px-4 md:px-6">
+        <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
+            <h1 class="font-playfair text-3xl font-bold mb-4 md:mb-0">Manage Featured Photos</h1>
+            <a href="{{ url_for('admin.index') }}" class="inline-block border border-white px-4 py-2 hover:bg-white hover:text-black transition-colors duration-300">Back to Admin</a>
+        </div>
+        
+        <div class="bg-dark p-6 rounded-lg shadow-lg">
+            <form method="POST" action="{{ url_for('admin.manage_featured') }}">
+                <p class="mb-6 text-gray-400">Select photos to feature on the homepage. Selected photos will be displayed in the featured section.</p>
+                
+                <!-- Featured Photos Selection -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+                    {% for photo in photos %}
+                    <div class="relative group">
+                        <div class="aspect-w-3 aspect-h-2 bg-gray-900 rounded overflow-hidden">
+                            <img src="{{ photo.thumbnail_url }}" alt="{{ photo.title }}" class="object-cover w-full h-full">
+                            <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <a href="{{ url_for('main.photo_detail', id=photo.id) }}" class="text-white hover:text-blue-300 mx-2">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="photo-{{ photo.id }}" name="featured_photos" value="{{ photo.id }}" 
+                                       {% if photo.featured %}checked{% endif %}
+                                       class="mr-2 h-5 w-5 text-blue-600">
+                                <label for="photo-{{ photo.id }}" class="text-sm truncate">
+                                    {{ photo.title }}
+                                </label>
+                            </div>
+                            
+                            <div class="mt-1 flex flex-wrap gap-1">
+                                {% for category in photo.categories %}
+                                    <span class="px-2 py-0.5 text-xs bg-gray-800 rounded">{{ category.name }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-white text-black px-6 py-2 hover:bg-gray-200 transition-colors duration-300">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Counter to show how many photos are selected
+        const checkboxes = document.querySelectorAll('input[name="featured_photos"]');
+        const updateSelectedCount = () => {
+            const selectedCount = document.querySelectorAll('input[name="featured_photos"]:checked').length;
+            document.querySelector('button[type="submit"]').textContent = `Save Changes (${selectedCount} selected)`;
+        };
+        
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateSelectedCount);
+        });
+        
+        // Initialize counter
+        updateSelectedCount();
+    });
+</script>
+{% endblock %} 

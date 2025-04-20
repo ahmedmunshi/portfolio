@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}SMBR Portfolio{% endblock %}
+
+{% block content %}
+<!-- Featured Photos Section -->
+<section id="featured" class="pt-24 pb-20 bg-dark">
+    <div class="container mx-auto px-4 md:px-6">
+        <div class="mb-12 text-center">
+            <h2 class="font-playfair text-3xl md:text-4xl font-bold mb-3 fade-in">Featured Work</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto fade-in delay-1">Selected pieces that define my visual style.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for photo in featured_photos %}
+                <div class="fade-in-grid" style="--delay: {{ loop.index0 * 0.1 }}s">
+                    <a href="{{ url_for('main.photo_detail', id=photo.id) }}" class="block group">
+                        <div class="relative overflow-hidden rounded">
+                            <img src="{{ photo.thumbnail_url }}" alt="{{ photo.title }}" class="w-full h-64 md:h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                                <div class="transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 text-center p-4">
+                                    <h3 class="text-white text-xl font-bold">{{ photo.title }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{{ url_for('main.gallery') }}" class="inline-block bg-transparent border border-white text-white px-8 py-3 font-bold hover:bg-white hover:text-black transition-colors duration-300 fade-in">View All Work</a>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Photos Section -->
+<section class="py-20 bg-dark">
+    <div class="container mx-auto px-4 md:px-6">
+        <div class="mb-12 text-center">
+            <h2 class="font-playfair text-3xl md:text-4xl font-bold mb-3 fade-in">Latest Captures</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto fade-in delay-1">Recent moments through my lens.</p>
+        </div>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for photo in recent_photos %}
+                <div class="fade-in-grid" style="--delay: {{ loop.index0 * 0.1 }}s">
+                    <a href="{{ url_for('main.photo_detail', id=photo.id) }}" class="block group">
+                        <div class="relative overflow-hidden rounded">
+                            <img src="{{ photo.thumbnail_url }}" alt="{{ photo.title }}" class="w-full h-40 sm:h-52 object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
+                                <span class="w-12 h-12 rounded-full bg-white bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center transform scale-0 group-hover:scale-100 transition-transform duration-300">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Initialize PhotoSwipe lightbox for home page photos
+    document.addEventListener('DOMContentLoaded', () => {
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: '.photo-card',
+            children: 'a',
+            pswpModule: PhotoSwipe
+        });
+        lightbox.init();
+    });
+</script>
+{% endblock %} 

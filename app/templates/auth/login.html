@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - SMBR Portfolio{% endblock %}
+
+{% block content %}
+<div class="pt-24 pb-20 bg-black min-h-screen">
+    <div class="container mx-auto px-4 md:px-6">
+        <div class="max-w-md mx-auto bg-dark p-8 rounded-lg shadow-lg fade-in">
+            <h1 class="font-playfair text-3xl font-bold mb-6 text-center">Admin Login</h1>
+            
+            <form method="POST" action="" class="space-y-6">
+                {{ form.hidden_tag() }}
+                
+                <div class="form-group">
+                    <label for="{{ form.username.id }}" class="block text-gray-300 mb-2">Username</label>
+                    {{ form.username(class="w-full bg-black border border-gray-700 text-white px-4 py-2 focus:outline-none focus:border-white transition-colors duration-300") }}
+                    {% for error in form.username.errors %}
+                        <span class="text-red-500 text-sm">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.password.id }}" class="block text-gray-300 mb-2">Password</label>
+                    {{ form.password(class="w-full bg-black border border-gray-700 text-white px-4 py-2 focus:outline-none focus:border-white transition-colors duration-300") }}
+                    {% for error in form.password.errors %}
+                        <span class="text-red-500 text-sm">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+                <div class="form-group flex items-center">
+                    {{ form.remember_me(class="mr-2") }}
+                    <label for="{{ form.remember_me.id }}" class="text-gray-300">Remember Me</label>
+                </div>
+                
+                <div class="form-group">
+                    {{ form.submit(class="w-full bg-white text-black py-2 px-4 font-bold hover:bg-gray-200 transition-colors duration-300") }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 
